@@ -48,11 +48,6 @@ RSpec.describe "Cats", type: :request do
       expect(cat['name']).to include "can't be blank"
     end
 
-    it "enjoys must have minimum length of ten" do
-      cat = Cat.create name:'Moose', age:4,enjoys:'hiking', image:'https://m.media-amazon.com/images/I/812nB8o+guL._AC_SX466_.jpg'
-
-      expect(cat.errors[:enjoys]).to_not be_empty
-    end
   end
 
 end
