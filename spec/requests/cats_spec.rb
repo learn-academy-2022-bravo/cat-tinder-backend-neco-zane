@@ -29,4 +29,26 @@ RSpec.describe "Cats", type: :request do
       expect(cat.enjoys).to eq 'Looking at trees'
     end
   end
+
+  describe "meaningful status codes" do
+    it 'doesnt create a cat without a name' do
+      cat_params = {
+        cat: {
+          age:2,
+          enjoys: 'long walks on the beach, sunbathing and eating tuna out of a can.'
+        }
+      }
+      post '/cats', params: cat_params
+      expect(response.status).to eq 422
+      cat = JSON.parse(response.body)
+      expect(cat['name']).to include "can't be blank"
+    end
+
+    it "enjoys must have minimum length of ten" do
+      cat = Cat.create name:'Moose', age:4,enjoys:'hiking', image:'https://m.media-amazon.com/images/I/812nB8o+guL._AC_SX466_.jpg'
+
+      expect(cat.errors[:enjoys]).to_not be_empty
+    end
+  end
+
 end
