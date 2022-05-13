@@ -12,14 +12,17 @@ class CatsController < ApplicationController
            render json: cat.errors, status: 422
          end
       end
-      
+
     def update
-    end 
+        cat = Cat.find(params[:id])
+        cat.update(cat_params)
+        render json: cat
+    end
 
 
     private
     def cat_params
-        params.require(:cat).permit(:name, :age, :enjoys)
+        params.require(:cat).permit(:name, :age, :enjoys, :image)
     end 
 
 end  
