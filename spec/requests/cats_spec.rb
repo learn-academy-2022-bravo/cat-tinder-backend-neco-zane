@@ -35,7 +35,11 @@ RSpec.describe "Cats", type: :request do
       cat_params = {
         cat: {
           age:2,
-          enjoys: 'long walks on the beach, sunbathing and eating tuna out of a can.'
+          enjoys: 'long walks on the beach, sunbathing and eating tuna out of a can.',
+          name: 'Toasty',
+          image: 'https://townsquare.media/site/396/files/2021/06/attachment-Cat-Walking-On-Beach.jpg'
+          enjoys length: minimum : 10
+
         }
       }
       post '/cats', params: cat_params
