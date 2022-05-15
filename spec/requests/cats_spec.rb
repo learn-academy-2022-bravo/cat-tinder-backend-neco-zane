@@ -22,7 +22,7 @@ RSpec.describe "Cats", type: :request do
           name: 'Giraffe',
           age: 3, 
           enjoys: 'Eating tuna',
-          image: 'https://townsquare.media/site/396/files/2021/06/attachment-Cat-Walking-On-Beach.jpg'
+          image: 'https://www.indeed.com/'
         }
       }
       post '/cats', params: cat_params
@@ -31,7 +31,7 @@ RSpec.describe "Cats", type: :request do
       expect(cat.name).to eq('Giraffe')
       expect(cat.age).to eq(3)
       expect(cat.enjoys).to eq('Eating tuna')
-      expect(cat.image).to eq('https://townsquare.media/site/396/files/2021/06/attachment-Cat-Walking-On-Beach.jpg')
+      expect(cat.image).to eq('https://www.indeed.com/')
     end
   end
 
@@ -42,13 +42,52 @@ RSpec.describe "Cats", type: :request do
           name: "",
           age: 3, 
           enjoys: 'Eating tuna and chips',
-          image: 'https://townsquare.media/site/396/files/2021/06/attachment-Cat-Walking-On-Beach.jpg'
-        }
+          image: 'https://www.indeed.com/'
       }
+    }
       post '/cats', params: cat_params
       expect(response.status).to eq 422
       cat = JSON.parse(response.body)
       expect(cat['name']).to include "can't be blank"
+    end
+    it "doesn't create a cat without a age" do
+      cat_params = {
+        cat: {
+          name: 'Giraffe',
+          enjoys: 'Eating tuna',
+          image: 'https://www.indeed.com/'
+        }
+      }
+      post '/cats', params: cat_params
+      expect(response).to have_http_status(422)
+      json = JSON.parse(response.body)
+      expect(json['age']).to include "can't be blank"
+    end
+    it "doesn't create a cat without a enjoys" do
+      cat_params = {
+        cat: {
+          name: 'Eating tuna',
+          age: 3,
+          image: 'https://www.indeed.com/'
+        }
+      }
+      post '/cats', params: cat_params
+      expect(response).to have_http_status(422)
+      json = JSON.parse(response.body)
+      expect(json['enjoys']).to include "can't be blank"
+    end
+    it "doesn't create a cat without a image" do
+      cat_params = {
+        cat: {
+          name: 'Giraffe',
+          age: 3,
+          enjoys: 'Eating tuna'
+        }
+      }
+      post '/cats', params: cat_params
+      expect(response).to have_http_status(422)
+      json = JSON.parse(response.body)
+      expect(json['image']).to include "can't be blank"
     end
   end
 end

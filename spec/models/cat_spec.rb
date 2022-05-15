@@ -18,7 +18,7 @@ RSpec.describe Cat, type: :model do
       expect(cat.errors[:enjoys]).to_not be_empty
     end
    it "should have an image" do
-      cat = Cat.create name: 'Toasty', age: 2
+      cat = Cat.create name: 'Toasty', age: 2, enjoys: "all the attention"
 
       expect(cat.errors[:image]).to_not be_empty
    end
